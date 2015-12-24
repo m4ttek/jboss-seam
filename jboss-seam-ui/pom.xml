@@ -65,6 +65,8 @@
                     <doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle>
                     <!-- Used by javadoc:javadoc goal -->
                     <detectOfflineLinks>false</detectOfflineLinks>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <failOnError>false</failOnError>
                 </configuration>
                 <executions>
                     <execution>

@@ -40,9 +40,11 @@ import org.jboss.resteasy.plugins.server.servlet.HttpServletInputMessage;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletResponseWrapper;
 import org.jboss.resteasy.plugins.server.servlet.ServletSecurityContext;
 import org.jboss.resteasy.plugins.server.servlet.ServletUtil;
-import org.jboss.resteasy.specimpl.UriInfoImpl;
+
+import org.jboss.resteasy.specimpl.ResteasyHttpHeaders;
 import org.jboss.resteasy.spi.HttpRequest;
 import org.jboss.resteasy.spi.HttpResponse;
+import org.jboss.resteasy.spi.ResteasyUriInfo;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -124,8 +126,9 @@ public class ResteasyResourceAdapter extends AbstractResource
             {
                try
                {
-                  HttpHeaders headers = ServletUtil.extractHttpHeaders(request);
-                  UriInfoImpl uriInfo = extractUriInfo(request, application.getResourcePathPrefix());
+                  ResteasyHttpHeaders headers = ServletUtil.extractHttpHeaders(request);
+
+                  ResteasyUriInfo uriInfo = extractUriInfo(request, application.getResourcePathPrefix());
 
                   HttpResponse theResponse = new HttpServletResponseWrapper(
                         response,
@@ -133,14 +136,9 @@ public class ResteasyResourceAdapter extends AbstractResource
                   );
 
                   // TODO: This requires a SynchronousDispatcher
-                  HttpRequest in = new HttpServletInputMessage(
-                        request,
-                        theResponse,
-                        headers,
-                        uriInfo,
-                        request.getMethod().toUpperCase(),
-                        (SynchronousDispatcher) dispatcher
-                  );
+
+                  HttpRequest in = new HttpServletInputMessage(request,response,getServletContext(),theResponse,headers,uriInfo,request.getMethod().toUpperCase(),(SynchronousDispatcher) dispatcher);
+
 
                   dispatcher.invoke(in, theResponse);
                }
@@ -171,7 +169,7 @@ public class ResteasyResourceAdapter extends AbstractResource
       }
    }
 
-   protected UriInfoImpl extractUriInfo(HttpServletRequest request, String pathPrefix)
+   protected ResteasyUriInfo extractUriInfo(HttpServletRequest request, String pathPrefix)
    {
       try
       {

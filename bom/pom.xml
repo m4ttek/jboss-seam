@@ -34,9 +34,10 @@
         <version.seam>2.3.2-SNAPSHOT</version.seam>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.3.3.Final</version.drools>
-		<version.resteasy>2.3.4.Final</version.resteasy>
+		<version.resteasy>3.0.11.Final</version.resteasy>
 		<version.spring>3.1.4.RELEASE</version.spring>
-        <version.richfaces>4.3.7.Final</version.richfaces>
+        <version.richfaces>4.5.12.Final</version.richfaces>
+		<version.jsf-impl>2.1.29-04</version.jsf-impl>
 
         <!-- Version of Hibernate projects -->
         <version.org.hibernate>4.2.0.Final</version.org.hibernate>
@@ -267,13 +268,13 @@
                 <version>${version.org.testng}</version>
             </dependency>
 
-			<dependency>
+			<!--<dependency>
 			  <groupId>org.richfaces</groupId>
 			  <artifactId>richfaces-bom</artifactId>
 			  <version>${version.richfaces}</version>
 			  <type>pom</type>
 			  <scope>import</scope>
-			</dependency>
+			</dependency>-->
 
 			<dependency>
 				<groupId>org.jboss.seam</groupId>
@@ -1167,6 +1168,17 @@
                 <artifactId>infinispan-tree</artifactId>
                 <version>${version.infinispan}</version>
             </dependency>
+
+			<dependency>
+				<groupId>org.richfaces</groupId>
+				<artifactId>richfaces</artifactId>
+				<version>${richfaces.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>${version.jsf-impl}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

@@ -140,13 +140,14 @@ public class ResteasyBootstrap
 
    protected Dispatcher createDispatcher(SeamResteasyProviderFactory providerFactory)
    {
-      return new SynchronousDispatcher(providerFactory);
+      SynchronousDispatcher synchronousDispatcher = new SynchronousDispatcher(providerFactory);
+      return synchronousDispatcher;
    }
 
    protected void initDispatcher()
    {
-      getDispatcher().setLanguageMappings(application.getLanguageMappings());
-      getDispatcher().setMediaTypeMappings(application.getMediaTypeMappings());
+//      getDispatcher().setLanguageMappings(application.getLanguageMappings()); FIXME
+//      getDispatcher().setMediaTypeMappings(application.getMediaTypeMappings());
    }
 
    protected Collection<Class<?>> findProviders(AnnotationDeploymentHandler handler)
@@ -300,7 +301,7 @@ public class ResteasyBootstrap
          if (StringConverter.class.isAssignableFrom(providerClass))
          {
             log.debug("registering provider as RESTEasy StringConverter: {0}", providerClass);
-            getDispatcher().getProviderFactory().addStringConverter((Class<? extends StringConverter>) providerClass);
+//            getDispatcher().getProviderFactory().addStringConverter((Class<? extends StringConverter>) providerClass); FIXME
          }
          else
          {

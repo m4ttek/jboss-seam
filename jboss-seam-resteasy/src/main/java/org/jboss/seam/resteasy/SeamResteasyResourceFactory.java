@@ -58,30 +58,30 @@ public class SeamResteasyResourceFactory implements ResourceFactory
       return resourceType;
    }
 
-   public void registered(InjectorFactory factory)
-   {
+   @Override
+   public void registered(ResteasyProviderFactory resteasyProviderFactory) {
       // Wrap the Resteasy PropertyInjectorImpl in a Seam interceptor (for @Context injection)
       seamComponent.addInterceptor(
-            new ResteasyContextInjectionInterceptor(
-                  new PropertyInjectorImpl(getScannableClass(), providerFactory)
-            )
+              new ResteasyContextInjectionInterceptor(
+                      new PropertyInjectorImpl(getScannableClass(), providerFactory)
+              )
       );
 
       // NOTE: Adding an interceptor to Component at this stage means that the interceptor is
       // always executed last in the chain. The sorting of interceptors of a Component occurs
       // only when the Component metadata is instantiated. This is OK in this case, as the
       // JAX RS @Context injection can occur last after all other interceptors executed.
-
    }
 
-   public Object createResource(HttpRequest request, HttpResponse response, InjectorFactory factory)
-   {
+   @Override
+   public Object createResource(HttpRequest request, HttpResponse response, ResteasyProviderFactory resteasyProviderFactory) {
       // Push this onto event context so we have it available in ResteasyContextInjectionInterceptor
       Contexts.getEventContext().set(ResteasyContextInjectionInterceptor.RE_HTTP_REQUEST_VAR, request);
       Contexts.getEventContext().set(ResteasyContextInjectionInterceptor.RE_HTTP_RESPONSE_VAR, response);
       log.debug("creating RESTEasy resource instance by looking up Seam component: " + seamComponent.getName());
       return Component.getInstance(seamComponent.getName());
    }
+
 
    public void requestFinished(HttpRequest request, HttpResponse response, Object resource)
    {

@@ -82,7 +82,7 @@
     <classpathentry kind="lib" path="lib/jboss-interceptors-api_1.1_spec.jar"/>
     <classpathentry kind="lib" path="lib/jboss-jms-api_1.1_spec.jar"/>
     <classpathentry kind="lib" path="lib/jboss-jmx.jar"/>
-    <classpathentry kind="lib" path="lib/jboss-jsf-api_2.1_spec.jar"/>
+    <classpathentry kind="lib" path="lib/jboss-jsf-api_2.2_spec.jar"/>
     <classpathentry kind="lib" path="lib/jboss-jsp-api_2.2_spec.jar"/>
     <classpathentry kind="lib" path="lib/jboss-logging.jar"/>
     <classpathentry kind="lib" path="lib/jboss-marshalling.jar"/>

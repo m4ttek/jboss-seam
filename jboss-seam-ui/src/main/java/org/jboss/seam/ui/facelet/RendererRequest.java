@@ -7,6 +7,7 @@ import java.net.URL;
 
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.view.facelets.Facelet;
 import javax.servlet.ServletContext;
 
 import org.jboss.seam.core.ResourceLoader;
@@ -18,7 +19,7 @@ import org.jboss.seam.mock.MockHttpServletResponse;
 import org.jboss.seam.ui.util.JSF;
 
 import com.sun.faces.application.ApplicationAssociate;
-import com.sun.faces.facelets.Facelet;
+
 
 public class RendererRequest
 {
@@ -125,7 +126,7 @@ public class RendererRequest
       {
          throw new IllegalArgumentException("resource doesn't exist: " + viewId);
       }
-      return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(url);
+      return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(FacesContext.getCurrentInstance(),url);
    }
 
    /**

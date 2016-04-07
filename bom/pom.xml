@@ -36,7 +36,7 @@
 		<version.drools>5.3.3.Final</version.drools>
 		<version.resteasy>3.0.11.Final</version.resteasy>
 		<version.spring>3.1.4.RELEASE</version.spring>
-        <version.richfaces>4.5.12.Final</version.richfaces>
+        <version.richfaces>4.5.15.Final</version.richfaces>
 		<version.jsf-impl>2.2.12</version.jsf-impl>
 
         <!-- Version of Hibernate projects -->
@@ -1172,7 +1172,7 @@
 			<dependency>
 				<groupId>org.richfaces</groupId>
 				<artifactId>richfaces</artifactId>
-				<version>${richfaces.version}</version>
+				<version>${version.richfaces}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.sun.faces</groupId>

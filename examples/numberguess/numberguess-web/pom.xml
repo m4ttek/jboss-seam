@@ -36,10 +36,10 @@
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-ui</artifactId>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.jboss.el</groupId>
             <artifactId>jboss-el</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam-debug</artifactId>
@@ -57,12 +57,12 @@
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-impl</artifactId>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -3,6 +3,7 @@ package org.jboss.seam.ui.facelet;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 import java.net.URL;
 
 import javax.faces.component.UIViewRoot;
@@ -10,6 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.Facelet;
 import javax.servlet.ServletContext;
 
+import org.apache.myfaces.view.facelets.FaceletFactory;
+import org.apache.myfaces.view.facelets.FaceletViewDeclarationLanguage;
+import org.apache.myfaces.view.facelets.impl.DefaultFaceletFactory;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.jsf.DelegatingFacesContext;
 import org.jboss.seam.log.LogProvider;
@@ -18,7 +22,7 @@ import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockHttpServletResponse;
 import org.jboss.seam.ui.util.JSF;
 
-import com.sun.faces.application.ApplicationAssociate;
+
 
 
 public class RendererRequest
@@ -119,7 +123,7 @@ public class RendererRequest
    /**
     * Get a Facelet for a URL
     */
-   protected Facelet faceletForViewId(String viewId) throws IOException
+  /* protected Facelet faceletForViewId(String viewId) throws IOException
    {
       URL url = ResourceLoader.instance().getResource(viewId);
       if (url == null)
@@ -127,6 +131,55 @@ public class RendererRequest
          throw new IllegalArgumentException("resource doesn't exist: " + viewId);
       }
       return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(FacesContext.getCurrentInstance(),url);
+   }*/
+
+   protected Facelet faceletForViewId(String viewId) throws IOException {
+      URL url = ResourceLoader.instance().getResource(viewId);
+      if (url == null) {
+         throw new IllegalArgumentException("resource doesn't exist: " + viewId);
+      }
+
+      // OLD CODE tightly coupled to Sun JSF
+      // return
+      // ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(url);
+
+      // NEW CODE for MyFaces
+      // see
+      // http://stackoverflow.com/questions/15813582/how-to-programmatically-instantiate-a-composite-component-or-a-tag-component
+      FaceletFactory ff = DefaultFaceletFactory.getInstance();
+      if (ff == null) {
+         FaceletViewDeclarationLanguage vdl = new FaceletViewDeclarationLanguage(facesContext);
+
+         Method createCompiler = null;
+         Method createFaceletFactory = null;
+         try {
+            createCompiler = FaceletViewDeclarationLanguage.class.getDeclaredMethod("createCompiler",
+                    FacesContext.class);
+            createFaceletFactory = FaceletViewDeclarationLanguage.class.getDeclaredMethod("createFaceletFactory",
+                    FacesContext.class, org.apache.myfaces.view.facelets.compiler.Compiler.class);
+            createCompiler.setAccessible(true);
+            createFaceletFactory.setAccessible(true);
+            org.apache.myfaces.view.facelets.compiler.Compiler compiler = (org.apache.myfaces.view.facelets.compiler.Compiler) createCompiler
+                    .invoke(vdl, facesContext);
+            ff = (FaceletFactory) createFaceletFactory.invoke(vdl, facesContext, compiler);
+         } catch (Exception ex) {
+            log.error("Error creating FaceletFactory.", ex);
+         }
+
+      }
+
+      Facelet facelet = null;
+      try {
+
+         facelet = ff.getFacelet(url);
+
+      } catch (Exception ex) {
+         log.error("Error creating facelet for url " + url, ex);
+      }
+
+      log.debug("Successfully created facelet for " + url + ": " + facelet);
+
+      return facelet;
    }
 
    /**

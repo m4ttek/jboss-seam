@@ -76,8 +76,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

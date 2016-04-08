@@ -17,14 +17,14 @@ import javax.faces.view.facelets.FaceletContext;
  */
 public class DecorateHandler extends ComponentHandler
 {
-   private com.sun.faces.facelets.tag.ui.DecorateHandler delegate;
+   private org.apache.myfaces.view.facelets.tag.ui.DecorateHandler delegate;
 
    public DecorateHandler(ComponentConfig config)
    {
       super(config);
       if ( tag.getAttributes().get("template")!=null )
       {
-         delegate = new com.sun.faces.facelets.tag.ui.DecorateHandler(config);
+         delegate = new org.apache.myfaces.view.facelets.tag.ui.DecorateHandler(config);
       }
    }
    

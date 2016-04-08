@@ -1,4 +1,4 @@
-<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
     <deployment>
         <dependencies>
             <module name="org.javassist" export="true"/>
@@ -12,5 +12,9 @@
             <module name="javax.faces.api" export="true"/>
             <module name="com.sun.jsf-impl" export="true"/>
         </dependencies>
+        <exclusions>
+            <!--<module name="javax.faces.api" slot="main"/>-->
+            <!--<module name="com.sun.jsf-impl" slot="main"/>-->
+        </exclusions>
     </deployment>
 </jboss-deployment-structure>

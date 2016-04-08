@@ -38,6 +38,8 @@
 		<version.spring>3.1.4.RELEASE</version.spring>
         <version.richfaces>4.5.15.Final</version.richfaces>
 		<version.jsf-impl>2.2.12</version.jsf-impl>
+		<version.myfaces-impl>2.2.9</version.myfaces-impl>
+		<!--<version.myfaces-impl>2.1.18</version.myfaces-impl>-->
 
         <!-- Version of Hibernate projects -->
         <version.org.hibernate>4.2.0.Final</version.org.hibernate>
@@ -1174,7 +1176,8 @@
 				<artifactId>richfaces</artifactId>
 				<version>${version.richfaces}</version>
 			</dependency>
-			<dependency>
+
+			<!--<dependency>
 				<groupId>com.sun.faces</groupId>
 				<artifactId>jsf-impl</artifactId>
 				<version>${version.jsf-impl}</version>
@@ -1184,6 +1187,18 @@
 				<groupId>org.jboss.spec.javax.faces</groupId>
 				<artifactId>jboss-jsf-api_2.2_spec</artifactId>
 				<version>2.2.12</version>
+			</dependency>-->
+
+			<dependency>
+				<groupId>org.apache.myfaces.core</groupId>
+				<artifactId>myfaces-impl</artifactId>
+				<version>${version.myfaces-impl}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.myfaces.core</groupId>
+				<artifactId>myfaces-api</artifactId>
+				<version>${version.myfaces-impl}</version>
 			</dependency>
 
 		</dependencies>

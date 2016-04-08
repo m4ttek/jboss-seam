@@ -27,7 +27,7 @@ import org.jboss.seam.ui.util.ViewUrlBuilder;
  * @author mnovotny
  *
  */
-public abstract class UISeamCommandBase extends UIOutput implements ActionSource2
+public abstract class UISeamCommandBase extends UIOutput // implements ActionSource2
 {
 
    private static Class PORTLET_REQUEST;
@@ -79,13 +79,13 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          }
       }
       
-      if (getActionExpression() != null)
+     /* if (getActionExpression() != null)
       {
 
          UIAction uiAction = new UIAction();
          uiAction.setAction(getActionExpression().getExpressionString());
          url.addParameter(uiAction);
-      }
+      }*/
 
       PropagationType propagationType = PropagationType.valueOf(getPropagation().toUpperCase());      
       if (propagationType == PropagationType.DEFAULT || propagationType == PropagationType.JOIN ||
@@ -227,18 +227,18 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
       //throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
    }
  
-   @Deprecated
+   /*@Deprecated
    public void setAction(javax.faces.el.MethodBinding methodBinding)
    {
      // setActionExpression(new MethodBindingToMethodExpression(methodBinding));
-      
-      com.sun.faces.application.MethodExpressionMethodBindingAdapter adapter;
+
+    *//*  com.sun.faces.application.MethodExpressionMethodBindingAdapter adapter;
       if (null != methodBinding) {
           adapter = new com.sun.faces.application.MethodExpressionMethodBindingAdapter(methodBinding);
           setActionExpression(adapter);
       } else {
           setActionExpression(null);
-      }
+      }*//*
    }
    
    @Deprecated
@@ -261,7 +261,7 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
           }
       }
       return result;
-   }
+   }*/
    
    private static boolean isPortletRequest(FacesContext facesContext)
    {

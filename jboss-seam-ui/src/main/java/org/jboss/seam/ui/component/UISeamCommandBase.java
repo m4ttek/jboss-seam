@@ -20,6 +20,7 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.core.PropagationType;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.ui.util.ViewUrlBuilder;
+import org.jboss.seam.ui.util.cdk.MethodBindingToMethodExpression;
 
 /**
  * Parent of all Seam command like JSF components 
@@ -27,7 +28,7 @@ import org.jboss.seam.ui.util.ViewUrlBuilder;
  * @author mnovotny
  *
  */
-public abstract class UISeamCommandBase extends UIOutput // implements ActionSource2
+public abstract class UISeamCommandBase extends UIOutput  implements ActionSource2
 {
 
    private static Class PORTLET_REQUEST;
@@ -79,13 +80,13 @@ public abstract class UISeamCommandBase extends UIOutput // implements ActionSou
          }
       }
       
-     /* if (getActionExpression() != null)
+      if (getActionExpression() != null)
       {
 
          UIAction uiAction = new UIAction();
          uiAction.setAction(getActionExpression().getExpressionString());
          url.addParameter(uiAction);
-      }*/
+      }
 
       PropagationType propagationType = PropagationType.valueOf(getPropagation().toUpperCase());      
       if (propagationType == PropagationType.DEFAULT || propagationType == PropagationType.JOIN ||
@@ -227,26 +228,26 @@ public abstract class UISeamCommandBase extends UIOutput // implements ActionSou
       //throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
    }
  
-   /*@Deprecated
-   public void setAction(javax.faces.el.MethodBinding methodBinding)
+   @Deprecated
+   public void setAction(javax.faces.el.MethodBinding methodBinding)//FIXME
    {
-     // setActionExpression(new MethodBindingToMethodExpression(methodBinding));
+      setActionExpression(new MethodBindingToMethodExpression(methodBinding));
 
-    *//*  com.sun.faces.application.MethodExpressionMethodBindingAdapter adapter;
+      /*MethodExpressionMethodBindingAdapter adapter;
       if (null != methodBinding) {
           adapter = new com.sun.faces.application.MethodExpressionMethodBindingAdapter(methodBinding);
           setActionExpression(adapter);
       } else {
           setActionExpression(null);
-      }*//*
+      }*/
    }
    
    @Deprecated
-   public javax.faces.el.MethodBinding getAction()
+   public javax.faces.el.MethodBinding getAction()//FIXME
    {
-      //return new org.jboss.seam.ui.util.cdk.MethodExpressionToMethodBinding(getActionExpression());
+      return new org.jboss.seam.ui.util.cdk.MethodExpressionToMethodBinding(getActionExpression());
       
-      MethodBinding result = null;
+     /* MethodBinding result = null;
       MethodExpression me;
 
       if (null != (me = getActionExpression())) {
@@ -260,8 +261,8 @@ public abstract class UISeamCommandBase extends UIOutput // implements ActionSou
               result = new com.sun.faces.application.MethodBindingMethodExpressionAdapter(me);
           }
       }
-      return result;
-   }*/
+      return result;*/
+   }
    
    private static boolean isPortletRequest(FacesContext facesContext)
    {

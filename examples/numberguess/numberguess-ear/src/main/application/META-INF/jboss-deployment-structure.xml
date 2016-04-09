@@ -9,12 +9,12 @@
             <module name="org.slf4j" export="true"/>
             <module name="org.hibernate" export="true"/>
             <module name="org.hibernate.validator" export="true"/>
-            <module name="javax.faces.api" export="true"/>
-            <module name="com.sun.jsf-impl" export="true"/>
+            <module name="javax.faces.api" export="true" slot="myfaces-2.2.9"/>
+            <module name="com.sun.jsf-impl" export="true" slot="myfaces-2.2.9"/>
         </dependencies>
         <exclusions>
-            <!--<module name="javax.faces.api" slot="main"/>-->
-            <!--<module name="com.sun.jsf-impl" slot="main"/>-->
+            <module name="javax.faces.api" slot="main"/>
+            <module name="com.sun.jsf-impl" slot="main"/>
         </exclusions>
     </deployment>
 </jboss-deployment-structure>

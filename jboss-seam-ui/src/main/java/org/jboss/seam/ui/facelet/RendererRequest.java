@@ -18,6 +18,7 @@ import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.jsf.DelegatingFacesContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
 import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockHttpServletResponse;
 import org.jboss.seam.ui.util.JSF;
@@ -33,7 +34,7 @@ public class RendererRequest
    private FacesContext facesContext;
 
    private MockHttpServletRequest request;
-   private MockHttpServletResponse response;
+   private EnhancedMockHttpServletResponse response;
 
    private StringWriter writer;
 
@@ -53,8 +54,8 @@ public class RendererRequest
       } else {
          request = new MockHttpServletRequest(HttpSessionManager.instance());
       }
-      response = new MockHttpServletResponse();
-
+      response = new EnhancedMockHttpServletResponse();
+      response.setCharacterEncoding("UTF-8");
       setContextClassLoader();
 
       // Generate the FacesContext from the JSF FacesContextFactory
@@ -68,8 +69,7 @@ public class RendererRequest
 
       // Set the responseWriter to write to a buffer
       writer = new StringWriter();
-      facesContext.setResponseWriter(facesContext.getRenderKit().createResponseWriter(writer,
-      null, null));
+      facesContext.setResponseWriter(facesContext.getRenderKit().createResponseWriter(writer, null, "UTF-8"));
    }
 
    private void cleanup()

@@ -36,7 +36,7 @@
 		<version.drools>5.3.3.Final</version.drools>
 		<version.resteasy>3.0.11.Final</version.resteasy>
 		<version.spring>3.1.4.RELEASE</version.spring>
-        <version.richfaces>4.5.15.Final</version.richfaces>
+        <version.richfaces>4.5.16.Final</version.richfaces>
 		<version.jsf-impl>2.2.12</version.jsf-impl>
 		<version.myfaces-impl>2.2.9</version.myfaces-impl>
 		<!--<version.myfaces-impl>2.1.18</version.myfaces-impl>-->

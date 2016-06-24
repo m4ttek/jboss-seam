@@ -1233,10 +1233,16 @@
 			<name>JBoss Releases Repository</name>
 			<url>${jboss.releases.repo.url}</url>
 		</repository>
-		<snapshotRepository>
+		<!--<snapshotRepository>
 			<id>jboss-snapshots-repository</id>
 			<name>JBoss Snapshots Repository</name>
 			<url>${jboss.snapshots.repo.url}</url>
+		</snapshotRepository>-->
+
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Snapshots</name>
+			<url>http://wizzar.ii.pw.edu.pl/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 

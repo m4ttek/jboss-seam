@@ -36,7 +36,8 @@
 		<version.drools>5.3.3.Final</version.drools>
 		<version.resteasy>3.0.11.Final</version.resteasy>
 		<version.spring>3.1.4.RELEASE</version.spring>
-        <version.richfaces>4.5.16.Final</version.richfaces>
+        <!--<version.richfaces>4.5.16.Final</version.richfaces>-->
+		<primefaces.version>6.0</primefaces.version>
 		<version.jsf-impl>2.2.12</version.jsf-impl>
 		<version.myfaces-impl>2.2.9</version.myfaces-impl>
 		<!--<version.myfaces-impl>2.1.18</version.myfaces-impl>-->
@@ -71,6 +72,7 @@
 		<jboss.releases.repo.url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</jboss.releases.repo.url>
 		<jboss.snapshots.repo.url>https://repository.jboss.org/nexus/content/repositories/snapshots/</jboss.snapshots.repo.url>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+
 	</properties>
 
 	<dependencyManagement>
@@ -1171,10 +1173,16 @@
                 <version>${version.infinispan}</version>
             </dependency>
 
-			<dependency>
+			<!--<dependency>
 				<groupId>org.richfaces</groupId>
 				<artifactId>richfaces</artifactId>
 				<version>${version.richfaces}</version>
+			</dependency>-->
+
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>${primefaces.version}</version>
 			</dependency>
 
 			<!--<dependency>

@@ -68,9 +68,10 @@
 			<scope>provided</scope>
 		</dependency>
         <dependency>
-            <groupId>org.opensymphony.quartz</groupId>
-            <artifactId>quartz</artifactId>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
         </dependency>
+
         
         <!-- Test dependencies -->
 		<dependency>

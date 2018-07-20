@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.TriggerKey;
 
 /**
  * Provides control over the Quartz Job.
@@ -14,35 +15,35 @@ import org.quartz.Trigger;
  */
 public class QuartzTriggerHandle implements Serializable
 {
-   private final String triggerName;
+   private final TriggerKey triggerKey;
    
    // Hold a transient reference to the scheduler to allow control of the
    // scheduler outside of Seam contexts (useful in a testing context)
    private transient Scheduler scheduler;
      
-   public QuartzTriggerHandle(String triggerName) 
+   public QuartzTriggerHandle(TriggerKey triggerKey)
    {
-      this.triggerName = triggerName; 
+      this.triggerKey = triggerKey;
    }
 
    public void cancel() throws SchedulerException
    {
-      getScheduler().unscheduleJob(triggerName, null);
+      getScheduler().unscheduleJob(triggerKey);
    }
    
    public void pause() throws SchedulerException
    {
-      getScheduler().pauseTrigger(triggerName, null);  
+      getScheduler().pauseTrigger(triggerKey);
    }
    
    public Trigger getTrigger() throws SchedulerException
    {
-      return getScheduler().getTrigger(triggerName, null);
+      return getScheduler().getTrigger(triggerKey);
    }
    
    public void resume() throws SchedulerException
    {
-      getScheduler().resumeTrigger(triggerName, null);
+      getScheduler().resumeTrigger(triggerKey);
    }
    
    private Scheduler getScheduler()

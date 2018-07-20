@@ -19,16 +19,12 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.quartz.CronTrigger;
-import org.quartz.Job;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleTrigger;
+import org.quartz.*;
+import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.triggers.AbstractTrigger;
+import org.quartz.impl.triggers.CronTriggerImpl;
+import org.quartz.impl.triggers.SimpleTriggerImpl;
 
 /**
  * Dispatcher implementation that uses the Quartz library.
@@ -75,14 +71,15 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       String jobName = nextUniqueName();
       String triggerName = nextUniqueName();
       
-      JobDetail jobDetail = new JobDetail(jobName, null, QuartzJob.class);
+      JobDetail jobDetail = new JobDetailImpl(jobName, null, QuartzJob.class);
       jobDetail.getJobDataMap().put("async", new AsynchronousEvent(type, parameters));
        
-      SimpleTrigger trigger = new SimpleTrigger(triggerName, null);      
+      SimpleTrigger trigger = new SimpleTriggerImpl(triggerName);
       try 
       {
         scheduler.scheduleJob(jobDetail, trigger);
-        return new QuartzTriggerHandle(triggerName);
+
+        return new QuartzTriggerHandle(trigger.getKey());
       } 
       catch (Exception se) 
       {
@@ -128,14 +125,15 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    {
       String jobName = nextUniqueName();
       String triggerName = nextUniqueName();
-      
-      JobDetail jobDetail = new JobDetail(jobName, null, QuartzJob.class);
+      TriggerKey triggerKey;
+
+      JobDetail jobDetail = new JobDetailImpl(jobName, null, QuartzJob.class);
       jobDetail.getJobDataMap().put("async", async);
 
       if (schedule instanceof CronSchedule) 
       {
-          CronSchedule cronSchedule = (CronSchedule) schedule; 
-          CronTrigger trigger = new CronTrigger (triggerName, null);
+          CronSchedule cronSchedule = (CronSchedule) schedule;
+          CronTriggerImpl trigger = new CronTriggerImpl(triggerName, null);
           trigger.setCronExpression(cronSchedule.getCron());
           trigger.setEndTime(cronSchedule.getFinalExpiration());
         
@@ -147,7 +145,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
           {
             trigger.setStartTime (calculateDelayedDate(cronSchedule.getDuration()));
           }
-        
+          triggerKey = trigger.getKey();
           scheduler.scheduleJob( jobDetail, trigger );
       }
       else if (schedule instanceof TimerSchedule)
@@ -157,53 +155,55 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
           {
              if ( timerSchedule.getExpiration()!=null )
              {
-                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, 
+                SimpleTrigger trigger = new SimpleTriggerImpl(triggerName, null,
                         timerSchedule.getExpiration(), 
                         timerSchedule.getFinalExpiration(), 
                         SimpleTrigger.REPEAT_INDEFINITELY, 
                         timerSchedule.getIntervalDuration());
                 scheduler.scheduleJob( jobDetail, trigger );
+                 triggerKey = trigger.getKey();
     
              }
              else if ( timerSchedule.getDuration()!=null )
              {
-                 SimpleTrigger trigger = new SimpleTrigger(triggerName, null, 
+                 SimpleTrigger trigger = new SimpleTriggerImpl(triggerName, null,
                          calculateDelayedDate(timerSchedule.getDuration()), 
                          timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, 
                          timerSchedule.getIntervalDuration());
                  scheduler.scheduleJob( jobDetail, trigger );
-    
+                 triggerKey = trigger.getKey();
              }
              else
              {
-                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, new Date(), 
+                SimpleTrigger trigger = new SimpleTriggerImpl(triggerName, null, new Date(),
                         timerSchedule.getFinalExpiration(), 
                         SimpleTrigger.REPEAT_INDEFINITELY, 
                         timerSchedule.getIntervalDuration());
                 scheduler.scheduleJob( jobDetail, trigger );
-    
+                 triggerKey = trigger.getKey();
              }
           } 
           else 
           {
             if ( schedule.getExpiration()!=null )
             {
-                SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
+                SimpleTrigger trigger = new SimpleTriggerImpl (triggerName, null, schedule.getExpiration());
                 scheduler.scheduleJob(jobDetail, trigger);
+                triggerKey = trigger.getKey();
     
             }
             else if ( schedule.getDuration()!=null )
             {
-                SimpleTrigger trigger = new SimpleTrigger (triggerName, null, 
+                SimpleTrigger trigger = new SimpleTriggerImpl (triggerName, null,
                         calculateDelayedDate(schedule.getDuration()));
                 scheduler.scheduleJob(jobDetail, trigger);
-    
+                triggerKey = trigger.getKey();
             }
             else
             {
-               SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
+               SimpleTrigger trigger = new SimpleTriggerImpl(triggerName);
                scheduler.scheduleJob(jobDetail, trigger);
-    
+                triggerKey = trigger.getKey();
             }
           }
       }
@@ -212,7 +212,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
           throw new IllegalArgumentException("unrecognized schedule type");
       }
 
-      return new QuartzTriggerHandle(triggerName);
+      return new QuartzTriggerHandle(triggerKey);
    }
    
    private String nextUniqueName ()
@@ -237,7 +237,8 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       {
          JobDataMap dataMap = context.getJobDetail().getJobDataMap();
          async = (Asynchronous)dataMap.get("async");
-         QuartzTriggerHandle handle = new QuartzTriggerHandle(context.getTrigger().getName());
+          AbstractTrigger trigger = (AbstractTrigger) context.getTrigger();
+          QuartzTriggerHandle handle = new QuartzTriggerHandle(trigger.getKey());
          try
          {
             async.execute(handle);

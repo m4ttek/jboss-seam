@@ -10,7 +10,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>jboss-seam-parent</artifactId>
 	<name>Seam Parent</name>
-	<version>2.3.3-SNAPSHOT</version>
+	<version>2.3.3.1-wildfly</version>
 	<packaging>pom</packaging>
 
 	<licenses>
@@ -45,7 +45,7 @@
 		<pdf.name>${project.artifactId}.pdf</pdf.name>
 
 		<!-- Version string properties -->
-        <version.seam>2.3.3-SNAPSHOT</version.seam>
+        <version.seam>2.3.3.1-wildfly</version.seam>
 		<version.jbossas7>7.2.0.Final</version.jbossas7>
 		<version.emma>2.0.5312</version.emma>
 		<version.richfaces.cdk>4.3.1.Final</version.richfaces.cdk>
@@ -56,7 +56,37 @@
 		<jboss.releases.repo.url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</jboss.releases.repo.url>
 		<jboss.snapshots.repo.url>https://repository.jboss.org/nexus/content/repositories/snapshots/</jboss.snapshots.repo.url>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-	</properties>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+       <id>spring-repo</id>
+       <url>https://repo.spring.io/release</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+
+    </repository>
+  </repositories>
 
 	<dependencyManagement>
 		<!-- Used to specify which version of a dependency to use - this means 
@@ -392,7 +422,24 @@
                </configuration>
            </plugin>           			
 		</plugins>
-	</build>
+  </build>
+
+  <pluginRepositories>
+   <pluginRepository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
 
    <modules>
       <module>bom</module>
